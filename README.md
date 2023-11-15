@@ -10,6 +10,12 @@ This project is a simple demo of the use of Google Map API, Place API and the Ti
 3. Can see your search history from a table with Id, Lat, Lng, Name, Time Zone
 4. Can delete your selected search records from the table and the markers on the map by clicking the `DELETE` button
 5. Can show the Name, Time Zone and Local Time of the last searched location
+6. Can persist the search history after refresh
+
+
+## TODO
+
+1. Update current location in `locations` instead of appending a new one
 
 
 ## Project setup

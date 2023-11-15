@@ -2,11 +2,12 @@
   <v-app>
     <v-main>
       <LocationButton
-        @add-location="addLocation"
+        @update-current-location="updateCurrentLocation"
         @update-map-center="updateMapCenter"
       />
       <MapView
         :locations="locations"
+        :currentLocation="currentLocation"
         :mapCenter="mapCenter"
         @add-location="addLocation"
         @update-map-center="updateMapCenter"
@@ -20,15 +21,22 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue';
+  import { ref, watch } from 'vue';
   import LocationButton from './components/LocationButton.vue';
   import LocationsTable from '@/components/LocationsTable.vue'
   import MapView from '@/components/MapView.vue'
 
-  const locations = ref([
-  ]);
+  const locations = ref(JSON.parse(localStorage.getItem('locations')) || []);
 
-  const mapCenter = ref({ lat: 0.0, lng: 0.0});
+  // listen to changes in locations and write it to localstorage
+  watch(locations, (newLocations) => {
+    localStorage.setItem('locations', JSON.stringify(newLocations));
+  }, { deep: true });
+
+  const mapCenter = ref({ lat: 43.6425662	, lng: -79.3870568});
+
+  // use seperate variable for displaying current location
+  const currentLocation = ref(null);
 
   function deleteLocations(selectedLocationIds) {
     locations.value = locations.value.filter(
@@ -42,7 +50,6 @@
     const locationExists = locations.value.some(
       location => location.name === newLocation.name
     )
-    console.log({locationExists: locationExists})
     if (!locationExists) {
       locations.value.push(newLocation)
     }
@@ -50,6 +57,10 @@
 
   function updateMapCenter(newMapCenter) {
     mapCenter.value = newMapCenter
+  }
+
+  function updateCurrentLocation(newCurrentLocation) {
+    currentLocation.value = newCurrentLocation
   }
 
 </script>

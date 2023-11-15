@@ -20,7 +20,7 @@
                             name: 'Current Location',
                         }
                         this.$emit('update-map-center', { lat: location.lat, lng: location.lng });
-                        this.$emit('add-location', location);
+                        this.$emit('update-current-location', location);
                     }, (error) => {
                         // error handling
                         console.error(error);

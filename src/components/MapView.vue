@@ -31,6 +31,13 @@
             :position="{ lat: location.lat, lng: location.lng }"
         >
         </GMapMarker>
+        <GMapMarker
+            v-if="currentLocation"
+            :key="currentLocation.id"
+            :icon="'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'"
+            :position="{ lat: currentLocation.lat, lng: currentLocation.lng }"
+        >
+        </GMapMarker>
     </GMapMap>
 </template>
 
@@ -42,6 +49,7 @@
     export default {
         props: {
             locations: Array,
+            currentLocation: Object,
             mapCenter: Object,
         },
         data() {
