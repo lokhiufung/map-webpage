@@ -25,7 +25,7 @@
     data () {
       return {
         selected: [],
-        itemsPerPage: 3,
+        itemsPerPage: 10,
       }
     },
     methods: {

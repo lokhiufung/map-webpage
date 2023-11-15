@@ -1,6 +1,6 @@
 <template>
     <v-btn
-        color="primary"
+        color="indigo"
         @click="getCurrentLocation"
     >
         Get Current Location

@@ -1,44 +1,55 @@
 <template>
     <div>
-        <div class="search-box">
-            <GMapAutocomplete
-                ref="autocomplete"
-                placeholder="Search for a location"
-                style="font-size: medium"
-                @place_changed="onPlaceChange"
+      <v-container>
+        <v-row>
+          <v-col cols="12" sm="6">
+            <div class="search-box d-flex align-center">
+              <GMapAutocomplete
+                  ref="autocomplete"
+                  placeholder="Search for a location"
+                  class="flex-grow-1 mr-2"
+                  @place_changed="onPlaceChange"
+              />
+              <v-btn color="light-blue" @click="triggerSearch">
+                  Search
+              </v-btn>
+            </div>
+          </v-col>
+        </v-row>
+  
+        <v-row v-if="timeZone && localTime && name" class="my-4">
+          <v-col>
+            <div class="location-info">
+              <h3 class="headline mb-2"> Last Searched Location: {{ name }} </h3>
+              <h3>Time Zone: {{ timeZone }} | Local Time: {{ localTime }}</h3>
+            </div>
+          </v-col>
+        </v-row>
+  
+        <v-row>
+          <v-col cols="12">
+            <GMapMap
+                :center="mapCenter"
+                :zoom="15"
+                map-type-id="terrain"
+                class="map-container"
             >
-            </GMapAutocomplete>
-            <v-btn
-                @click="triggerSearch"
-            >
-                Search
-            </v-btn>
-        </div>
+              <GMapMarker
+                  v-for="location in locations"
+                  :key="location.id"
+                  :position="{ lat: location.lat, lng: location.lng }"
+              />
+              <GMapMarker
+                  v-if="currentLocation"
+                  :key="currentLocation.id"
+                  :icon="'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'"
+                  :position="{ lat: currentLocation.lat, lng: currentLocation.lng }"
+              />
+            </GMapMap>
+          </v-col>
+        </v-row>
+      </v-container>
     </div>
-    <div v-if="timeZone && localTime && name" class="location-info">
-        <h3> Last Searched Location: {{ name }} </h3>
-        <h3>Time Zone: {{ timeZone }} | Local Time: {{ localTime }}</h3>
-    </div>
-    <GMapMap
-        :center="mapCenter"
-        :zoom="15"
-        map-type-id="terrain"
-        style="width: 80%vw; height: 20rem"
-    >
-        <GMapMarker
-            v-for="location in locations"
-            :key="location.id"
-            :position="{ lat: location.lat, lng: location.lng }"
-        >
-        </GMapMarker>
-        <GMapMarker
-            v-if="currentLocation"
-            :key="currentLocation.id"
-            :icon="'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'"
-            :position="{ lat: currentLocation.lat, lng: currentLocation.lng }"
-        >
-        </GMapMarker>
-    </GMapMap>
 </template>
 
 <script>
@@ -117,3 +128,33 @@
         }
     }
 </script>
+
+
+<style scoped>
+.search-box {
+  margin-top: 20px;
+}
+
+.location-info {
+  padding: 15px;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.map-container {
+  height: 400px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+@media (max-width: 600px) {
+  .search-box {
+    flex-direction: column;
+  }
+  
+  .search-box .v-btn {
+    margin-top: 10px;
+  }
+}
+</style>

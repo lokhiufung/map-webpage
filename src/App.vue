@@ -1,21 +1,41 @@
 <template>
   <v-app>
+    <v-toolbar class="text-center" color="light-blue" dark>
+      <v-toolbar-title>Demo - Web page for searching and marking locations</v-toolbar-title>
+    </v-toolbar>
     <v-main>
-      <LocationButton
-        @update-current-location="updateCurrentLocation"
-        @update-map-center="updateMapCenter"
-      />
-      <MapView
-        :locations="locations"
-        :currentLocation="currentLocation"
-        :mapCenter="mapCenter"
-        @add-location="addLocation"
-        @update-map-center="updateMapCenter"
-      />
-      <LocationsTable 
-        :locations="locations"
-        @delete-locations="deleteLocations"
-      />
+      <v-container>
+        <!-- Use Vuetify's classes for spacing and alignment -->
+        <v-row class="text-center mb-4">
+          <v-col>
+            <LocationButton
+              @update-current-location="updateCurrentLocation"
+              @update-map-center="updateMapCenter"
+            />
+          </v-col>
+        </v-row>
+
+        <v-row>
+          <v-col>
+            <MapView
+              :locations="locations"
+              :currentLocation="currentLocation"
+              :mapCenter="mapCenter"
+              @add-location="addLocation"
+              @update-map-center="updateMapCenter"
+            />
+          </v-col>
+        </v-row>
+
+        <v-row>
+          <v-col>
+            <LocationsTable 
+              :locations="locations"
+              @delete-locations="deleteLocations"
+            />
+          </v-col>
+        </v-row>
+      </v-container>
     </v-main>
   </v-app>
 </template>
@@ -64,3 +84,4 @@
   }
 
 </script>
+
